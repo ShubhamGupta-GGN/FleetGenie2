@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -127,7 +126,7 @@ with tab2:
                   'business_priorities', 'fleet_performance_measures']
     for col in multi_cols:
         mlb = MultiLabelBinarizer()
-        vals = df_enc[col].str.split(',')
+        vals = df_enc[col].fillna('').str.split(',')
         enc = pd.DataFrame(mlb.fit_transform(vals), columns=[f"{col}_{c}" for c in mlb.classes_])
         df_enc = pd.concat([df_enc, enc], axis=1)
     df_enc = df_enc.drop(columns=multi_cols)
@@ -219,7 +218,7 @@ with tab2:
         new_enc = new_df.copy()
         for col in multi_cols:
             mlb = MultiLabelBinarizer()
-            vals = new_enc[col].str.split(',')
+            vals = new_enc[col].fillna('').str.split(',')
             enc = pd.DataFrame(mlb.fit_transform(vals), columns=[f"{col}_{c}" for c in mlb.classes_])
             new_enc = pd.concat([new_enc, enc], axis=1)
         new_enc = new_enc.drop(columns=multi_cols)
@@ -300,7 +299,7 @@ with tab4:
     df_ap = df[[col1, col2]].copy()
     for col in [col1, col2]:
         mlb = MultiLabelBinarizer()
-        arr = mlb.fit_transform(df_ap[col].str.split(','))
+        arr = mlb.fit_transform(df_ap[col].fillna('').str.split(','))
         arr_df = pd.DataFrame(arr, columns=[f"{col}_{c}" for c in mlb.classes_])
         df_ap = pd.concat([df_ap, arr_df], axis=1)
     # Drop original cols, keep binaries

@@ -126,7 +126,7 @@ with tab2:
                   'business_priorities', 'fleet_performance_measures']
     for col in multi_cols:
         mlb = MultiLabelBinarizer()
-        vals = df_enc[col].fillna('').str.split(',')
+        vals = df_enc[col].fillna('').astype(str).str.split(',')
         enc = pd.DataFrame(mlb.fit_transform(vals), columns=[f"{col}_{c}" for c in mlb.classes_])
         df_enc = pd.concat([df_enc, enc], axis=1)
     df_enc = df_enc.drop(columns=multi_cols)
